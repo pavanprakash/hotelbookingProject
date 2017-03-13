@@ -1,79 +1,65 @@
 import Init.Init;
 import PageObjects.HotelBookingForm;
 import junit.framework.TestCase;
-import org.apache.http.util.Asserts;
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class CreateBookingTest {
     final String url ="http://hotel-test.equalexperts.io/";
-
     WebDriver driver;
-    Map InputList=new HashMap();
-    public CreateBookingTest(){
-
-        Init initobj = new Init();
-        String browser= System.getProperty("Browser");
-        driver = initobj.getBrowserDriver(browser);
-
-        InputList.put("firstname","pavan");
-        InputList.put("lastname","prakash");
-        InputList.put("price","100");
-        InputList.put("deposit","true");
-        InputList.put("checkin","2017-02-15");
-        InputList.put("checkout","2017-02-19");
-    }
-
+    Init initobj;
+    HotelBookingForm hotelBookingForm;
+    Random ran;
+    Map InputList;
+    String browser="chrome";
+    String platform="mac";
 
     @Test
-    public void CreateABooking(){
+    public void AddBooking(){
+
+
+
+        initobj=new Init();
+
+        driver=initobj.getBrowserDriver(browser,platform);
+
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        driver.findElement(By.id("firstname")).sendKeys(InputList.get("firstname").toString());
-        driver.findElement(By.id("lastname")).sendKeys(InputList.get("lastname").toString());
-        driver.findElement(By.id("totalprice")).sendKeys(InputList.get("price").toString());
-        driver.findElement(By.xpath("//select")).click();
-        driver.findElement(By.xpath("//select/option[text()='true']")).click();
-        driver.findElement(By.id("checkin")).sendKeys(InputList.get("checkin").toString());
-        driver.findElement(By.id("checkout")).sendKeys(InputList.get("checkout").toString());
+        //Map<String,String> InputList= new Map<String,String>;
+        ran = new Random();
+        InputList=new HashMap();
 
-        //click on save button
-        driver.findElement(By.xpath("//input[@id='checkout']/../following-sibling::div/input")).click();
+        InputList.put("firstname","testfname"+ran.nextInt(10));
+        InputList.put("surname","testlname"+ran.nextInt(10));
+        InputList.put("price","100");
+        InputList.put("deposit","true");
+        InputList.put("checkin","2017-10-15");
+        InputList.put("checkout","2017-10-19");
 
-        VerifyIfBookingAdded();
+        hotelBookingForm=new HotelBookingForm(driver);
 
+        hotelBookingForm.CreateANewBooking(InputList);
 
-    }
+       driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-
-    public void VerifyIfBookingAdded(){
-        String name=InputList.get("firstname").toString();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-        Asserts.check(driver.findElement(By.xpath("p[contains(text(),'"+name+"')]")).isDisplayed(),"Verified hotel booking with nam  e : "+name+" is added successfully");
 
     }
-
-    public void DelteABooking(){
-        String name=InputList.get("firstname").toString();
-        if(driver.findElement(By.cssSelector("p:contains('"+name+"')")).isDisplayed()){
-            driver.findElement(By.cssSelector("p:contains('"+name+"')")).click();
-        }
-    }
-
     @After
-    public void CleanUp(){
-        driver.quit();
+    public void cleanup(){
+        initobj= new Init();
+        initobj.KillBrowser(driver);
+
     }
 
 }

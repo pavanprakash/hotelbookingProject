@@ -5,5 +5,5 @@ import org.openqa.selenium.WebDriver;
  */
 public interface Browser {
 
-     WebDriver getBrowserDriver(String browserName);
+     WebDriver getBrowserDriver(String browserName,String platform);
 }

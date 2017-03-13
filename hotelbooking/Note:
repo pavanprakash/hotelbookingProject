@@ -1,9 +1,0 @@
-Note:
-
-There are 3 main folders in the project-
-
-Drivers: which contains chrome driver (for OSX and Win)
-Main> java: this contains code related to creating a driver, also contains page objects class
-test: contaings 2 tests mainly, CreateABooking and DeleteABooking. There also another test file called CreateABooking_po which has implementation of Page Objects using Page Factory. 
-
-With the limited amount of time i have tried my best and all the tests do work.

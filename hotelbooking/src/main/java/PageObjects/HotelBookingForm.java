@@ -18,7 +18,7 @@ public class HotelBookingForm {
     WebDriver driver;
 
     //constructor to initialise page factory
-    public HotelBookingForm(WebDriver webdriver){
+    public HotelBookingForm(WebDriver driver){
         PageFactory.initElements(driver, this);
     }
 
@@ -81,8 +81,8 @@ public class HotelBookingForm {
 
     public void VerifyIfBookingIsAdded(String name){
 
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-        Asserts.check(driver.findElement(By.cssSelector("p:contains('"+name+"')")).isDisplayed(),"Verified hotel booking with name : "+name+" is added successfully");
+        boolean b=driver.findElement(By.xpath("//p[text()='"+name+"']")).isDisplayed();
+        Asserts.check(b,"Verified hotel booking with name : "+name+" is added successfully");
     }
 }

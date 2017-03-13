@@ -2,24 +2,32 @@ package Browser;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
  * Created by sapna on 09/02/2017.
  */
 public class GetDriver {
 
-public  WebDriver CreateChromeDriver(){
+    public static WebDriver CreateChromeDriver(String platform){
+        String chromedriverexec=null;
 
-    System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver");
-    WebDriver driver = new ChromeDriver();
+        if(platform.equals("windows"))
+        {
+            chromedriverexec=   "chromedriver.exe";
+        }
+        else if(platform.equals("mac")){
+            chromedriverexec=   "chromedriver";
+        }
+        else{
+            chromedriverexec=   "chromedriver.exe";
+        }
 
-    return driver;
-}
+        System.setProperty("webdriver.chrome.driver", "src//main//resources//drivers//"+chromedriverexec);
+        WebDriver driver = new ChromeDriver();
 
-public WebDriver CreateFirefoxDriver(){
-    WebDriver driver = new FirefoxDriver();
-
-    return driver;
+        return driver;
+    }
+    public void KillBrowser(WebDriver driver){
+        driver.quit();
     }
 }
